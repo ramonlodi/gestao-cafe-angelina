@@ -1,0 +1,16 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Ambiente
+.env
+
+# Node (futuro)
+node_modules/
+
+# IDE
+.vscode/
+
+# Banco local
+*.sqlite3
