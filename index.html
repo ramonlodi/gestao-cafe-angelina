@@ -192,6 +192,198 @@ tbody tr:hover{background:var(--cream)}
 .rb-admin{background:#EFF6FF;color:var(--blue);border:1px solid #BFDBFE}
 .rb-gerente{background:#FFF8ED;color:#A05C0A;border:1px solid #FDE8BB}
 .rb-atendente{background:#F0FDF0;color:var(--green);border:1px solid #C6F6C6}
+
+  /* ============================
+   RESPONSIVO MOBILE
+============================ */
+
+@media (max-width: 768px){
+
+  html,body{
+    font-size:13px;
+    overflow-x:hidden;
+  }
+
+  .layout{
+    flex-direction:column;
+  }
+
+
+  /* SIDEBAR MOBILE */
+  .sidebar{
+    width:100%;
+    min-width:100%;
+    height:auto;
+    position:relative;
+    overflow:visible;
+  }
+
+  .sb-brand{
+    padding:1rem;
+  }
+
+  .sb-user{
+    margin:.5rem 1rem;
+  }
+
+  .sb-nav{
+    display:flex;
+    overflow-x:auto;
+    padding:.5rem;
+    gap:4px;
+  }
+
+  .nav-lbl{
+    display:none;
+  }
+
+  .nav-item{
+    white-space:nowrap;
+    border-left:none;
+    border-bottom:3px solid transparent;
+    padding:.6rem .8rem;
+    font-size:12px;
+  }
+
+  .nav-item.active{
+    border-left:none;
+    border-bottom-color:var(--gold);
+  }
+
+  .sb-footer{
+    display:none;
+  }
+
+
+  /* MAIN */
+  .main{
+    width:100%;
+    overflow:visible;
+  }
+
+
+  .topbar{
+    position:sticky;
+    padding:.8rem 1rem;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .topbar-right{
+    width:100%;
+    justify-content:space-between;
+  }
+
+
+  .content{
+    padding:1rem;
+    overflow:visible;
+  }
+
+
+  /* GRIDS */
+  .g2,
+  .g3,
+  .g4{
+    grid-template-columns:1fr !important;
+  }
+
+
+  /* CARDS */
+  .card,
+  .metric-card{
+    padding:1rem;
+  }
+
+
+  .mc-val{
+    font-size:20px;
+  }
+
+
+  /* FORM */
+  .fg{
+    margin-bottom:.7rem;
+  }
+
+  input,
+  select{
+    font-size:16px;
+    padding:10px;
+  }
+
+
+  /* BOTÕES */
+  .btn{
+    width:100%;
+    justify-content:center;
+  }
+
+
+  /* TABELAS */
+  .tw{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  table{
+    min-width:650px;
+  }
+
+
+  /* GRÁFICOS */
+  .chart-wrap{
+    height:200px;
+  }
+
+  .chart-wrap-tall{
+    height:220px;
+  }
+
+
+  /* LOGIN */
+  .login-card{
+    width:90%;
+    padding:2rem 1.5rem;
+  }
+
+
+  /* MODAL */
+  .modal-box{
+    width:95vw;
+    padding:1.25rem;
+  }
+
+
+  .modal-footer{
+    flex-direction:column;
+  }
+
+
+  /* período */
+  .periodo-bar{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .periodo-chips{
+    width:100%;
+    flex-wrap:wrap;
+  }
+
+  .chip{
+    flex:1;
+    text-align:center;
+  }
+
+
+  /* esconder textos longos */
+  .badge-date{
+    display:none;
+  }
+
+}
 </style>
 </head>
 <body>
