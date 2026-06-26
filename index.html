@@ -43,8 +43,8 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 .login-powered strong{color:rgba(255,255,255,.4)}
 
 /* ===== OVERLAY MOBILE ===== */
-#sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;opacity:0;transition:opacity .25s}
-#sb-overlay.open{opacity:1}
+#sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;opacity:0;transition:opacity .25s;pointer-events:none}
+#sb-overlay.open{opacity:1;pointer-events:all}
 
 /* ===== LAYOUT ===== */
 .layout{display:flex;min-height:100vh}
@@ -52,7 +52,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 /* SIDEBAR */
 .sidebar{width:var(--sb-w);min-width:var(--sb-w);background:var(--espresso);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06);position:sticky;top:0;height:100vh;overflow-y:auto;transition:transform .25s ease;z-index:100}
 .sb-brand{padding:1.25rem 1rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
-.sb-close-btn{display:none;margin-left:auto;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-size:22px;padding:2px}
+.sb-close-btn{display:none;margin-left:auto;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-size:22px;padding:2px;-webkit-tap-highlight-color:transparent}
 .sb-cup{width:36px;height:36px;background:linear-gradient(135deg,var(--caramel),var(--gold));border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .sb-cup i{font-size:18px;color:#fff}
 .sb-brand-txt h2{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#fff;line-height:1.2}
@@ -131,7 +131,7 @@ input:focus,select:focus{outline:none;border-color:var(--caramel)}
 .sec-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .divider{height:1px;background:var(--border);margin:1rem 0}
 
-/* TABLE — scroll horizontal apenas dentro da tabela */
+/* TABLE */
 .tw{overflow-x:auto;border-radius:var(--r-sm);-webkit-overflow-scrolling:touch}
 .tw::-webkit-scrollbar{height:4px}
 .tw::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
@@ -187,11 +187,15 @@ tbody tr:hover{background:var(--cream)}
 .chip:hover{border-color:var(--caramel);color:var(--caramel)}
 .chip.active{background:var(--caramel);color:#fff;border-color:var(--caramel)}
 
+/* custom-range: hidden by default, shown via JS */
+#custom-range{display:none;flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap}
+#custom-range.open{display:flex}
+
 /* CHARTS */
 .chart-wrap{position:relative;height:200px;width:100%}
 .chart-wrap-tall{position:relative;height:240px;width:100%}
 
-/* ESTOQUE EXCLUSIVO */
+/* ESTOQUE GAUGE */
 .estoque-gauge{display:flex;flex-direction:column;gap:6px}
 .gauge-row{display:flex;align-items:center;gap:8px;font-size:12px}
 .gauge-label{width:120px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);font-size:11px}
@@ -214,6 +218,7 @@ tbody tr:hover{background:var(--cream)}
 .bnav-item span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60px;text-align:center}
 .bnav-more{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;color:rgba(255,255,255,.4);cursor:pointer;gap:3px;font-size:10px;-webkit-tap-highlight-color:transparent;min-height:54px}
 .bnav-more i{font-size:20px}
+.bnav-more span{font-size:10px}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:768px){
@@ -222,8 +227,7 @@ tbody tr:hover{background:var(--cream)}
   /* Sidebar off-canvas */
   .sidebar{position:fixed;left:0;top:0;bottom:0;height:100%;transform:translateX(-100%);z-index:100}
   .sidebar.open{transform:translateX(0)}
-  #sb-overlay{display:block;pointer-events:none}
-  #sb-overlay.open{pointer-events:all}
+  #sb-overlay{display:block}
   .sb-close-btn{display:flex}
 
   /* Show hamburger */
@@ -242,7 +246,7 @@ tbody tr:hover{background:var(--cream)}
   .g4{gap:.6rem}
 
   /* Metric cards 2 col */
-  .g4-metrics{display:grid!important;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.75rem!important}
+  .g4.g4-metrics{grid-template-columns:1fr 1fr !important;gap:.6rem}
   .metric-card{padding:.875rem}
   .mc-val{font-size:18px}
   .mc-icon{width:36px;height:36px;font-size:17px}
@@ -254,10 +258,12 @@ tbody tr:hover{background:var(--cream)}
   .sec-title{flex-direction:column;align-items:flex-start}
   .sec-title > div{display:flex;gap:6px;flex-wrap:wrap}
 
-  /* Period bar */
-  .periodo-bar{gap:8px}
-  #custom-range{flex-direction:column;align-items:flex-start!important;gap:6px!important}
-  #custom-range input{width:100%!important}
+  /* Period bar — stack vertically */
+  .periodo-bar{flex-direction:column;align-items:flex-start;gap:8px}
+  .periodo-chips{width:100%}
+  #custom-range.open{flex-direction:column;align-items:stretch;width:100%}
+  #custom-range.open input{width:100%}
+  #custom-range.open button{width:100%;justify-content:center}
 
   /* Charts smaller on mobile */
   .chart-wrap{height:180px}
@@ -267,23 +273,19 @@ tbody tr:hover{background:var(--cream)}
   table{min-width:380px}
 
   /* Ficha técnica add row */
-  .ficha-add-row{flex-direction:column!important}
-  .ficha-add-row > div{flex:unset!important;width:100%}
+  .ficha-add-row{flex-direction:column !important}
+  .ficha-add-row > div{flex:unset !important;width:100%}
 
   /* Prato list */
-  .prato-row-actions{flex-direction:column;align-items:flex-start!important;gap:6px!important}
-  .prato-row-prices{flex-wrap:wrap;gap:4px}
+  .prato-row-actions{flex-direction:column;align-items:flex-start !important;gap:6px !important}
 
-  /* Modal bottom sheet already set above, fine-tune */
+  /* Modal footer */
   .modal-footer{flex-direction:column-reverse}
   .modal-footer .btn{width:100%;justify-content:center}
-
-  /* v-resumo and ficha preview */
-  #v-ficha-preview .ficha-box,.ficha-box{font-size:12px}
 }
 
 @media (max-width:400px){
-  .g4-metrics{grid-template-columns:1fr}
+  .g4.g4-metrics{grid-template-columns:1fr}
   .mc-val{font-size:17px}
   .badge-role{font-size:10px;padding:3px 8px}
 }
@@ -291,6 +293,7 @@ tbody tr:hover{background:var(--cream)}
 </head>
 <body>
 <div id="toast"></div>
+<!-- OVERLAY SIDEBAR MOBILE -->
 <div id="sb-overlay" onclick="closeSidebar()"></div>
 
 <!-- ===== LOGIN ===== -->
@@ -328,7 +331,7 @@ tbody tr:hover{background:var(--cream)}
       <h2>Café Angelina</h2>
       <span>Gestão Financeira</span>
     </div>
-    <button class="sb-close-btn" onclick="closeSidebar()"><i class="ti ti-x"></i></button>
+    <button class="sb-close-btn" onclick="closeSidebar()" aria-label="Fechar menu"><i class="ti ti-x"></i></button>
   </div>
   <div class="sb-user">
     <div class="sb-user-info">
@@ -363,7 +366,7 @@ tbody tr:hover{background:var(--cream)}
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
-      <button class="hamburger" onclick="openSidebar()" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+      <button class="hamburger" onclick="openSidebar()" aria-label="Abrir menu"><i class="ti ti-menu-2"></i></button>
       <div>
         <h1 id="page-title">Dashboard</h1>
         <p id="page-sub">Visão geral do período</p>
@@ -529,14 +532,15 @@ tbody tr:hover{background:var(--cream)}
         <i class="ti ti-filter" style="color:var(--caramel);font-size:16px"></i>
         <label style="color:var(--text2);font-size:12px;font-weight:600">Período:</label>
         <div class="periodo-chips">
-          <button class="chip" onclick="setPeriodo('mes',event)">Este mês</button>
-          <button class="chip active" onclick="setPeriodo('trimestre',event)">Trimestre</button>
-          <button class="chip" onclick="setPeriodo('custom',event)">Personalizado</button>
+          <button class="chip" onclick="setPeriodo('mes',this)">Este mês</button>
+          <button class="chip active" onclick="setPeriodo('trimestre',this)">Trimestre</button>
+          <button class="chip" onclick="setPeriodo('custom',this)">Personalizado</button>
         </div>
-        <div id="custom-range" style="display:none;flex-direction:column;gap:8px;width:100%">
-          <input id="p-de" type="date" style="width:100%"/>
-          <input id="p-ate" type="date" style="width:100%"/>
-          <button class="btn btn-sm btn-p" onclick="aplicarPeriodo()" style="width:100%"><i class="ti ti-check"></i>Aplicar período</button>
+        <div id="custom-range">
+          <input id="p-de" type="date"/>
+          <span style="font-size:12px;color:var(--muted);white-space:nowrap">até</span>
+          <input id="p-ate" type="date"/>
+          <button class="btn btn-sm btn-p" onclick="aplicarPeriodo()"><i class="ti ti-check"></i>Aplicar</button>
         </div>
       </div>
       <div class="g4 g4-metrics" style="margin-bottom:.75rem">
@@ -747,8 +751,6 @@ function applyRole(){
 function buildBottomNav(role){
   const tabs = role==='atendente'
     ? [{tab:'dashboard',icon:'ti-layout-dashboard',lbl:'Início'},{tab:'compras',icon:'ti-shopping-cart',lbl:'Compras'},{tab:'movimentos',icon:'ti-receipt-2',lbl:'Vendas'},{tab:'listac',icon:'ti-clipboard-list',lbl:'Lista'}]
-    : role==='gerente'
-    ? [{tab:'dashboard',icon:'ti-layout-dashboard',lbl:'Início'},{tab:'movimentos',icon:'ti-receipt-2',lbl:'Vendas'},{tab:'estoque',icon:'ti-package',lbl:'Estoque'},{tab:'analise',icon:'ti-chart-bar',lbl:'Análise'},{tab:'menu',icon:'ti-menu-2',lbl:'Menu'}]
     : [{tab:'dashboard',icon:'ti-layout-dashboard',lbl:'Início'},{tab:'movimentos',icon:'ti-receipt-2',lbl:'Vendas'},{tab:'estoque',icon:'ti-package',lbl:'Estoque'},{tab:'analise',icon:'ti-chart-bar',lbl:'Análise'},{tab:'menu',icon:'ti-menu-2',lbl:'Menu'}];
   const nav = document.getElementById('bnav-items');
   nav.innerHTML = tabs.map(t=>{
@@ -781,20 +783,27 @@ let editPratoId = null;
 let periodoAtivo = 'trimestre';
 let periodoRange = { de: m2+'-01', ate: mes+'-31' };
 
-function setPeriodo(p,ev){
+// FIX: setPeriodo recebe o elemento botão diretamente, sem depender de event global
+function setPeriodo(p, btn){
   periodoAtivo = p;
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  if(ev&&ev.target) ev.target.classList.add('active');
+  if(btn) btn.classList.add('active');
   const cr = document.getElementById('custom-range');
-  if(p==='custom'){ cr.style.display='flex'; return; }
-  cr.style.display='none';
+  if(p==='custom'){
+    cr.classList.add('open');
+    return;
+  }
+  cr.classList.remove('open');
   if(p==='mes'){ periodoRange={de:mes+'-01',ate:mes+'-31'}; }
   else { periodoRange={de:m2+'-01',ate:mes+'-31'}; }
   renderAnalise();
   renderChartsAnalise();
 }
 function aplicarPeriodo(){
-  periodoRange={de:document.getElementById('p-de').value, ate:document.getElementById('p-ate').value};
+  const de=document.getElementById('p-de').value;
+  const ate=document.getElementById('p-ate').value;
+  if(!de||!ate)return toast('Selecione as datas do período',false);
+  periodoRange={de,ate};
   renderAnalise(); renderChartsAnalise();
 }
 function movsFiltrados(){
@@ -830,7 +839,6 @@ function loadDemo(){
     {id:108,nome:'Croissant de Presunto', preco:16.00,cat:'Lanche',       ficha:[{insumoId:4,qtd:0.08},{insumoId:6,qtd:0.015},{insumoId:11,qtd:0.06},{insumoId:10,qtd:0.05}]},
     {id:109,nome:'Parfait de Granola',    preco:14.50,cat:'Sobremesa',    ficha:[{insumoId:14,qtd:0.06},{insumoId:13,qtd:0.05},{insumoId:5,qtd:0.5}]},
   ];
-
   compras=[
     {id:201,insumoId:1,qtdNome:'Grão de café especial',qtd:10,un:'kg',custo:420.00,forn:'Fazenda São Benedito',data:m2+'-02'},
     {id:202,insumoId:2,qtdNome:'Leite integral',qtd:30,un:'L',custo:135.00,forn:'Laticínios Bela Vista',data:m2+'-03'},
@@ -850,14 +858,12 @@ function loadDemo(){
     {id:216,insumoId:4,qtdNome:'Farinha de trigo',qtd:8,un:'kg',custo:38.40,forn:'Atacado do Chef',data:m0+'-05'},
     {id:217,insumoId:13,qtdNome:'Chantilly',qtd:2,un:'L',custo:24.00,forn:'Laticínios Bela Vista',data:m0+'-07'},
   ];
-
   function v(id,pratoId,qtd,data){
     const pr=pratos.find(p=>p.id===pratoId);
     const cu=calcCusto(pr);
     return {id,tipo:'venda',desc:pr.nome+' ×'+qtd,valor:pr.preco*qtd,custo:cu*qtd,pratoId,qtd,data,fichaUsada:pr.ficha||[]};
   }
   function desp(id,desc,cat,valor,data){return{id,tipo:'despesa',desc:desc+' ('+cat+')',cat,valor,data};}
-
   movimentos=[
     desp(301,'Aluguel do espaço','Aluguel',2800,m2+'-01'),desp(302,'Energia elétrica','Utilidades',390,m2+'-01'),desp(303,'Salário atendente','Pessoal/Salários',1800,m2+'-05'),desp(304,'Gás de cozinha','Utilidades',180,m2+'-06'),desp(305,'Marketing redes sociais','Marketing',250,m2+'-07'),
     v(310,101,10,m2+'-08'),v(311,102,6,m2+'-08'),v(312,103,8,m2+'-08'),v(313,106,5,m2+'-09'),v(314,107,4,m2+'-09'),v(315,101,8,m2+'-10'),v(316,102,9,m2+'-10'),v(317,105,4,m2+'-10'),v(318,103,7,m2+'-11'),v(319,108,3,m2+'-11'),v(320,101,12,m2+'-12'),v(321,102,7,m2+'-12'),v(322,104,5,m2+'-12'),v(323,106,6,m2+'-13'),v(324,107,5,m2+'-13'),v(325,101,9,m2+'-14'),v(326,102,8,m2+'-14'),v(327,105,6,m2+'-14'),v(328,103,10,m2+'-15'),v(329,109,4,m2+'-15'),v(330,101,11,m2+'-16'),v(331,102,10,m2+'-16'),v(332,108,4,m2+'-16'),v(333,104,6,m2+'-17'),v(334,107,3,m2+'-17'),v(335,101,8,m2+'-18'),v(336,102,9,m2+'-18'),v(337,105,5,m2+'-18'),v(338,106,7,m2+'-19'),v(339,103,11,m2+'-19'),v(340,101,13,m2+'-20'),v(341,102,6,m2+'-20'),
@@ -1112,7 +1118,7 @@ function renderUsers(){
   tb.innerHTML=users.map(u=>`<tr><td><strong>${u.nome}</strong>${u.id===currentUser.id?' <span style="font-size:11px;color:var(--muted)">(você)</span>':''}</td><td style="font-family:monospace;font-size:12px">${u.user}</td><td><span class="role-badge ${roleMap[u.role]||''}">${u.role}</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="editUser(${u.id})"><i class="ti ti-pencil"></i></button>${u.id!==currentUser.id?`<button class="btn btn-xs btn-d" onclick="delUser(${u.id})"><i class="ti ti-trash"></i></button>`:''}</div></td></tr>`).join('');
 }
 
-// ===== RENDER TABELAS =====
+// ===== RENDER =====
 function render(){
   renderSelects();renderPratos();renderInsumos();renderCompras();renderMovimentos();renderAnalise();renderLista();renderDashboard();renderEstoque();renderUsers();
 }
@@ -1208,7 +1214,7 @@ function renderAnalise(){
 function renderLista(){
   const crit=insumos.filter(i=>i.min>0&&i.qtd<=i.min);
   const la=document.getElementById('lista-auto');
-  la.innerHTML=crit.length?crit.map(i=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;gap:8px"><strong style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${i.nome}</strong><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span style="color:${i.qtd<=0?'var(--red)':'var(--caramel)';};font-size:12px">${fmtN(i.qtd)}/${fmtN(i.min)} ${i.un}</span><span class="badge b-${i.qtd<=0?'crit':'low'}">${i.qtd<=0?'Crítico':'Baixo'}</span></div></div>`).join(''):'<div class="empty"><i class="ti ti-circle-check"></i>Estoque dentro do limite</div>';
+  la.innerHTML=crit.length?crit.map(i=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;gap:8px"><strong style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${i.nome}</strong><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span style="color:${i.qtd<=0?'var(--red)':'var(--caramel)'};font-size:12px">${fmtN(i.qtd)}/${fmtN(i.min)} ${i.un}</span><span class="badge b-${i.qtd<=0?'crit':'low'}">${i.qtd<=0?'Crítico':'Baixo'}</span></div></div>`).join(''):'<div class="empty"><i class="ti ti-circle-check"></i>Estoque dentro do limite</div>';
   const lista=[...crit.map(i=>({item:i.nome,qtd:fmtN(i.min-i.qtd)+' '+i.un,prio:i.qtd<=0?'Urgente':'Alta',orig:'Automático'})),...listaAvulsa.map(l=>({item:l.item,qtd:l.qtd+' '+l.un,prio:'Normal',orig:'Manual'}))];
   const tb=document.getElementById('tbody-lista');
   if(!lista.length){tb.innerHTML='<tr><td colspan="5" class="empty">Lista vazia</td></tr>';return;}
@@ -1310,7 +1316,7 @@ function renderCharts(){
   },120);
 }
 
-// ===== NAV (tabs) =====
+// ===== NAV =====
 const pageTitles={
   dashboard:['Dashboard','Visão geral do mês atual'],
   pratos:['Pratos & Cardápio','Fichas técnicas e cadastro'],
